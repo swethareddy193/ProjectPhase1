@@ -1,0 +1,22 @@
+package phase1;
+
+public class WelcomeApPpage {
+
+	public static void main(String[] args) {
+		
+		Welcomelockme();
+	
+	
+	}
+	public  static void Welcomelockme() {
+	System.out.println("----------------------");
+	System.out.println("                       ");
+	System.out.println("WELCOME TO THE LOCKMEAPP");
+	System.out.println("                       ");
+	System.out.println("----------------------");
+	
+	
+	}
+	
+
+}

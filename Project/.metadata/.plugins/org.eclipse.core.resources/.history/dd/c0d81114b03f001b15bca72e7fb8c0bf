@@ -1,0 +1,156 @@
+package phase1;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+public class WelcomeApPpage {
+	
+	static Scanner keyboard=new Scanner(System.in);
+	public static Scanner Userinput;
+ 	public static Scanner Crendentialinput;
+ 	public static PrintWriter Useroutput;
+	public static PrintWriter Crendentialoutput;
+	public static  Users users;
+	public static Usercredentials usercredentials;
+	
+	public static void main(String[] args) {
+		InitiliazeFiles();
+		Welcomelockme();
+		 Signinoptions();
+	
+	}
+	public  static void Welcomelockme() {
+	System.out.println("----------------------");
+	System.out.println("***********************");
+	System.out.println("                       ");
+	System.out.println("WELCOME TO THE LOCKMEAPP.COM");
+	System.out.println("YOUR DIGITIAL LOCKER.....");
+	System.out.println("                       ");
+	System.out.println("***********************");
+	System.out.println("----------------------");
+	}
+public static void Signinoptions() {
+	System.out.println("1.Register" );
+	System.out.println("2.Login" );
+	int option=keyboard.nextInt();
+	switch(option) {
+	case 1:
+		Registration();
+		break;
+	case 2:
+		Login();
+		break;
+    default:
+	System.out.println("Please Select 1 or 2 ");
+	break;
+	
+	}
+		
+	}
+
+
+	public static void Registration() {
+		System.out.println("----------------------");
+		System.out.println("***********************");
+		System.out.println("                       ");
+		System.out.println("WELCOME TO THE REGISTRATION");
+		System.out.println("                       ");
+		System.out.println("***********************");
+		System.out.println("----------------------");
+		System.out.println("Enter Username");
+	    String username=keyboard.next();
+	    users= new Users();
+	    users.setUsername(username);
+		System.out.println("Enter Password");
+		String password=keyboard.next();
+	    users.setPassword(password);
+	    Useroutput.println(users.username);
+	    Useroutput.println(users.password);
+	    Useroutput.close();
+	    
+		System.out.println("Registration Successful");
+	}
+public static void Login() {
+ 	System.out.println("----------------------");
+ 	System.out.println("***********************");
+	System.out.println("                       ");
+	System.out.println("WELCOME TO THE LOGIN");
+	System.out.println("                       ");
+	System.out.println("***********************");
+	System.out.println("----------------------");
+	System.out.println("Enter the Username");
+	String input=keyboard.next();
+	boolean isfound=false;
+	while (Userinput.hasNext()&&!isfound) {
+		System.out.println("enter the password");
+		if(Userinput.next().equals(input)) {
+			System.out.println("enter the password");
+			String inputpassword=keyboard.next();
+			if(Userinput.next().equals(inputpassword)) {
+				System.out.println("LOGIN SUCCESSFULL!!");
+				isfound=true;
+				lockeroptions(input);
+				break;
+				
+			}
+			if(!isfound) {
+				System.out.println("User Not  Found!! 404");
+			}
+			
+			
+		}
+	}
+	
+		
+	}
+public static void lockeroptions(String input) {
+	System.out.println("1 FETCH ALL STORED CREDENTIALS");
+	System.out.println("2 STORE ALL STORED CREDENTIALS");
+	int option=keyboard.nextInt();
+	switch(option) {
+	case 1:
+		Fetchcredentials(input);
+		break;
+	case 2:
+		Storecredentilas(input);
+		break;;
+	}
+	
+	
+	
+}
+public static void Fetchcredentials(String input) {
+	// TODO Auto-generated method stub
+	
+}
+public static void Storecredentilas(String input) {
+	// TODO Auto-generated method stub
+	
+}
+public static void InitiliazeFiles() {
+	File Userdatafile=new File("src/phase1/usersData.txt");
+	File Credential=new File("src/phase1/credentials.txt");
+	
+	try {
+		Userinput=new Scanner(Userdatafile);
+		
+	Crendentialinput=new Scanner(Credential);
+	keyboard=new Scanner(System.in);
+	Useroutput= new PrintWriter(new FileWriter(Userdatafile,true));
+	
+	Crendentialoutput=new PrintWriter(new FileWriter(Userdatafile,true));
+	
+	users=new Users();
+    usercredentials=new Usercredentials();
+		
+	} catch (Exception e) {
+		System.out.println("404 File Not Found");
+	}
+		
+	
+	
+}
+
+
+}

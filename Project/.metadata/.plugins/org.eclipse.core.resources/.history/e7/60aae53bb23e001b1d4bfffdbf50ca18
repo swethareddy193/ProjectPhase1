@@ -1,0 +1,30 @@
+package phase1;
+import java.util.Scanner;
+
+public class WelcomeApPpage {
+	keyboard=new 
+
+	public static void main(String[] args) {
+		
+		Welcomelockme();
+	
+	
+	}
+	public  static void Welcomelockme() {
+	System.out.println("----------------------");
+	System.out.println("                       ");
+	System.out.println("WELCOME TO THE LOCKMEAPP");
+	System.out.println("                       ");
+	System.out.println("----------------------");
+	}
+public static void Signinoptions() {
+	System.out.println("1.Register" );
+	System.out.println("2.Login" );
+	int option=keyboard
+		
+	}
+	public static void Registration() {
+		
+	}
+
+}
