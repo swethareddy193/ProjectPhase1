@@ -1,6 +1,12 @@
 package phase1;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -14,11 +20,17 @@ public class WelcomeApPpage {
 	public static  Users users;
 	public static Usercredentials usercredentials;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+//		Scanner sc=new Scanner(System.in);
+//		
+//		System.out.println("enter the file name");
+//		String file=sc.next();
+//		
+
+		
 		InitiliazeFiles();
 		Welcomelockme();
-		 Signinoptions();
-	
+		Signinoptions();	
 	}
 	public  static void Welcomelockme() {
 	System.out.println("----------------------");
@@ -31,7 +43,7 @@ public class WelcomeApPpage {
 	System.out.println("***********************");
 	System.out.println("----------------------");
 	}
-public static void Signinoptions() {
+public static void Signinoptions() throws IOException  {
 	System.out.println("1.Register" );
 	System.out.println("2.Login" );
 	int option=keyboard.nextInt();
@@ -50,8 +62,22 @@ public static void Signinoptions() {
 		
 	}
 
-
-	public static void Registration() {
+public static void Createfile(String file) throws IOException {
+	try {
+		File newfile=new File(file);
+		if(newfile.createNewFile()) {
+			System.out.println("file created successfully!!!");
+		}
+		if(newfile.exists()) {
+			System.out.println("FIle Already exsists duplicate cannot be created");
+		}
+		
+	} catch (Exception e) {
+	e.printStackTrace();
+	}
+}
+	public static void Registration() throws IOException {
+	
 		System.out.println("----------------------");
 		System.out.println("***********************");
 		System.out.println("                       ");
@@ -70,9 +96,9 @@ public static void Signinoptions() {
 	    Useroutput.println(users.password);
 	    Useroutput.close();
 	    
-		System.out.println("Registration Successful");
+		System.out.println("Registration Successful!!!.......");
 	}
-public static void Login() {
+public static void Login() throws IOException {
  	System.out.println("----------------------");
  	System.out.println("***********************");
 	System.out.println("                       ");
@@ -86,6 +112,7 @@ public static void Login() {
 	while (Userinput.hasNext()&&!isfound) {
 		
 		if(Userinput.next().equals(input)) {
+	
 			System.out.println("enter the password");
 			String inputpassword=keyboard.next();
 			if(Userinput.next().equals(inputpassword)) {
@@ -93,21 +120,26 @@ public static void Login() {
 				isfound=true;
 				lockeroptions(input);
 				break;
-				
 			}
+			
 			if(!isfound) {
-				System.out.println("User Not  Found!! 404");
+				isfound=true;
+				System.out.println("Please check the password and enter the password correctly!! ");
+				break;
 			}
-			
-			
 		}
+	}
+	if(!isfound) {
+		System.out.println("User Not Found!!! 404");
 	}
 	
 		
 	}
-public static void lockeroptions(String input) {
+public static void lockeroptions(String input) throws IOException {
 	System.out.println("1 FETCH ALL STORED CREDENTIALS");
-	System.out.println("2 STORE ALL STORED CREDENTIALS");
+	System.out.println("2 STORE THE CREDENTIALS");
+	System.out.println("3 SEARCH ALL THE STORED CREDENTIALS");
+	System.out.println("4 DELETE ALL THE CREDENTIALS");
 	int option=keyboard.nextInt();
 	switch(option) {
 	case 1:
@@ -116,11 +148,71 @@ public static void lockeroptions(String input) {
 	case 2:
 		Storecredentilas(input);
 		break;
+	 case 3:
+		SearchCredentials();
+		break;
+	 case 4:
+			DeleteCredentials();
+			break;
 	}
+  
+}
 	
-	
+private static void DeleteCredentials() throws IOException {
+	Scanner scaninput=new Scanner(System.in);
+	String Name;
+	String record;
+File Readfileaddress=new File("src/phase1/credentials.txt");
+File Deletefileaddress=new File("src/phase1/credentials.txt");
+BufferedReader br=new BufferedReader(new FileReader(Readfileaddress));
+BufferedWriter bw=new BufferedWriter(new FileWriter(Deletefileaddress));
+System.out.println("enter the username to delete");
+Name=scaninput.nextLine();
+while ((record=br.readLine())!=null) {
+	if(record.contains(Name))
+	continue;
+	bw.write(record);
+	bw.flush();
+	bw.newLine();
 	
 }
+br.close();
+bw.close();
+Deletefileaddress.delete();
+Readfileaddress.renameTo(Deletefileaddress);
+
+	
+}
+private static void SearchCredentials() {
+
+	Scanner sc=new Scanner(System.in);
+	System.out.println("enter  the Sitename for searching");
+String sitedetails=sc.next();
+String line="";
+try {
+	FileInputStream fin=new FileInputStream("src/phase1/credentials.txt");
+	Scanner s=new Scanner(fin);
+	while(s.hasNext()) {
+		line=sc.nextLine();
+		if(line.equals(sitedetails)) {
+			System.out.println(sitedetails);
+			
+		}
+		
+		
+	}
+	s.close();
+} 
+
+catch (Exception e) {
+	// TODO: handle exception
+	e.printStackTrace();
+}
+	
+}
+
+
+
 public static void Fetchcredentials(String input) {
 	System.out.println("---------------------");
 	System.out.println("*                    *");
@@ -156,7 +248,7 @@ public static void Storecredentilas(String loginuser) {
 	usercredentials.setSitename(sitename);
 	System.out.println("Enter the user name");
 	String username=keyboard.next();
-	usercredentials.setSitename(username);
+	usercredentials.setUsername(username);
 	System.out.println("Enter the password");
 	String password=keyboard.next();
 	usercredentials.setPassword(password);
@@ -171,10 +263,17 @@ public static void Storecredentilas(String loginuser) {
 	
 	
 }
-public static void InitiliazeFiles() {
-	File Userdatafile=new File("src/phase1/usersData.txt");
-	File Credential=new File("src/phase1/credentials.txt");
-	
+
+public static void InitiliazeFiles() throws IOException {
+	File Userdatafile=new File("/home/swethar839gmail/Project/Phase1project/usersData.txt");
+	File Credential=new File("/home/swethar839gmail/Project/Phase1project/credentials.txt");
+
+//	{
+//		System.out.println("File created Successfully now you can write the data");
+//	}
+//	else {
+//		System.out.println("File not created!!!!");
+//	}
 	try {
 		Userinput=new Scanner(Userdatafile);
 		
