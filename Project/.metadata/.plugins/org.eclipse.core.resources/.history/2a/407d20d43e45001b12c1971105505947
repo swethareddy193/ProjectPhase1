@@ -223,7 +223,7 @@ public static void Fetchcredentials(String input) {
 	System.out.println("---------------------");
 	System.out.println(input);
 	while(Crendentialinput.hasNext()) {
-//		System.out.println(Crendentialinput.hasNext());
+		System.out.println(Crendentialinput.hasNext());
 		if(Crendentialinput.next().equals(input)) {
 			System.out.println("SITE NAME:"+Crendentialinput.next());
 			System.out.println("USER NAME:"+Crendentialinput.next());
@@ -286,23 +286,6 @@ public static void InitiliazeFiles() throws IOException {
 	
 	
 }
-public static void Createfile1(String file) throws IOException {
 
-	try {
-		File newfile=new File(file);
-		if(newfile.createNewFile()) {
-			System.out.println("file created successfully!!!");
-		}
-		if(newfile.exists()) {
-			System.out.println("file Already exsits duplicate  not allowed!!!!!");
-		}
-	} catch (Exception e) {
-	e.printStackTrace();;
-	}
-	
+
 }
-	
-}
-
-
-

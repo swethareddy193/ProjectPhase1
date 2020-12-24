@@ -39,7 +39,29 @@ Createfile(file);
 		
 		
 	}
-	
-
+	public static void InitiliazeFiles() throws IOException {
+		File Userdatafile=new File("/home/swethar839gmail/Project/Phase1project/usersData.txt");
+		File Credential=new File("/home/swethar839gmail/Project/Phase1project/credentials.txt");
+		try {
+			Userinput=new Scanner(Userdatafile);
+			
+		Crendentialinput=new Scanner(Credential);
+		keyboard=new Scanner(System.in);
+		Useroutput= new PrintWriter(new FileWriter(Userdatafile,true));
+		
+		Crendentialoutput=new PrintWriter(new FileWriter(Credential,true));
+		
+		users=new Users();
+	    usercredentials=new Usercredentials();
+			
+		} catch (Exception e) {
+			System.out.println("404 File Not Found");
+		}
+			
+		
+		
 	}
 
+
+	}
+}
