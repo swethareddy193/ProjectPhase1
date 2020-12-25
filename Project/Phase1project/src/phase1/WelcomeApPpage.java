@@ -7,7 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class WelcomeApPpage {
@@ -20,7 +23,7 @@ public class WelcomeApPpage {
 	public static  Users users;
 	public static Usercredentials usercredentials;
 	
-	public static void main(String[] args) throws IOException {
+public static void main(String[] args) throws IOException {
 //		Scanner sc=new Scanner(System.in);
 //		
 //		System.out.println("enter the file name");
@@ -32,7 +35,7 @@ public class WelcomeApPpage {
 		Welcomelockme();
 		Signinoptions();	
 	}
-	public  static void Welcomelockme() {
+public  static void Welcomelockme() {
 	System.out.println("----------------------");
 	System.out.println("***********************");
 	System.out.println("                       ");
@@ -61,7 +64,6 @@ public static void Signinoptions() throws IOException  {
 	}
 		
 	}
-
 public static void Createfile(String file) throws IOException {
 	try {
 		File newfile=new File(file);
@@ -76,7 +78,7 @@ public static void Createfile(String file) throws IOException {
 	e.printStackTrace();
 	}
 }
-	public static void Registration() throws IOException {
+public static void Registration() throws IOException {
 	
 		System.out.println("----------------------");
 		System.out.println("***********************");
@@ -89,13 +91,23 @@ public static void Createfile(String file) throws IOException {
 	    String username=keyboard.next();
 	    users= new Users();
 	    users.setUsername(username);
-		System.out.println("Enter Password");
+	    while(Userinput.hasNext()) {
+	    	if(Userinput.next().contains(username)) {
+	    		System.out.println("User name already exsists cannot be Registered---");
+	    		return;
+	    	}
+	    	else {
+	    		users.setUsername(username);
+	    		
+	    	}
+    }
+	   
+	    System.out.println("Enter Password");
 		String password=keyboard.next();
 	    users.setPassword(password);
 	    Useroutput.println(users.username);
 	    Useroutput.println(users.password);
-	    Useroutput.close();
-	    
+	    Useroutput.close();  
 		System.out.println("Registration Successful!!!.......");
 	}
 public static void Login() throws IOException {
@@ -131,14 +143,11 @@ public static void Login() throws IOException {
 	}
 	if(!isfound) {
 		System.out.println("User Not Found!!! 404");
-	}
-	
-		
-	}
+	}	}
 public static void lockeroptions(String input) throws IOException {
 	System.out.println("1 FETCH ALL STORED CREDENTIALS");
 	System.out.println("2 STORE THE CREDENTIALS");
-	System.out.println("3 SEARCH ALL THE STORED CREDENTIALS");
+	System.out.println("3 CREATE NEW FILE");
 	System.out.println("4 DELETE ALL THE CREDENTIALS");
 	int option=keyboard.nextInt();
 	switch(option) {
@@ -149,40 +158,48 @@ public static void lockeroptions(String input) throws IOException {
 		Storecredentilas(input);
 		break;
 	 case 3:
-		SearchCredentials();
+		 Createfile1(input);
 		break;
 	 case 4:
 			DeleteCredentials();
 			break;
 	}
   
-}
-	
+}	
 private static void DeleteCredentials() throws IOException {
 	Scanner scaninput=new Scanner(System.in);
 	String Name;
 	String record;
-File Readfileaddress=new File("src/phase1/credentials.txt");
-File Deletefileaddress=new File("src/phase1/credentials.txt");
-BufferedReader br=new BufferedReader(new FileReader(Readfileaddress));
-BufferedWriter bw=new BufferedWriter(new FileWriter(Deletefileaddress));
-System.out.println("enter the username to delete");
-Name=scaninput.nextLine();
-while ((record=br.readLine())!=null) {
-	if(record.contains(Name))
-	continue;
-	bw.write(record);
+	File Readfileaddress=new File("/home/swethar839gmail/Project/Phase1project/credentials.txt");
+	List<String> lines= new ArrayList<String>();
+	BufferedReader br=new BufferedReader(new FileReader(Readfileaddress));
+	System.out.println("enter the username to delete");
+	Name=scaninput.nextLine();
+	int i=0;
+	int n=0;
+	String line= null;
+	while ((line=br.readLine())!=null) {
+		i++;
+		if(i==4*n+1) {
+			n++;
+			if(line.contains(Name)) {
+				line= line.replace(Name, "");
+			}
+			lines.add(line);
+		}
+	}
+	br.close();
+	FileWriter fw = new FileWriter(Readfileaddress);
+	BufferedWriter bw= new BufferedWriter(fw);
+	for(String s:lines) {
+		bw.write(s);
+	}
 	bw.flush();
-	bw.newLine();
-	
+	bw.close();
 }
-br.close();
-bw.close();
-Deletefileaddress.delete();
-Readfileaddress.renameTo(Deletefileaddress);
 
-	
-}
+
+
 private static void SearchCredentials() {
 
 	Scanner sc=new Scanner(System.in);
@@ -196,23 +213,15 @@ try {
 		line=sc.nextLine();
 		if(line.equals(sitedetails)) {
 			System.out.println(sitedetails);
-			
-		}
-		
-		
-	}
+		}		}
 	s.close();
+	sc.close();
 } 
-
 catch (Exception e) {
 	// TODO: handle exception
 	e.printStackTrace();
 }
-	
 }
-
-
-
 public static void Fetchcredentials(String input) {
 	System.out.println("---------------------");
 	System.out.println("*                    *");
@@ -223,7 +232,6 @@ public static void Fetchcredentials(String input) {
 	System.out.println("---------------------");
 	System.out.println(input);
 	while(Crendentialinput.hasNext()) {
-//		System.out.println(Crendentialinput.hasNext());
 		if(Crendentialinput.next().equals(input)) {
 			System.out.println("SITE NAME:"+Crendentialinput.next());
 			System.out.println("USER NAME:"+Crendentialinput.next());
@@ -257,13 +265,8 @@ public static void Storecredentilas(String loginuser) {
 	Crendentialoutput.println(usercredentials.getUsername());
 	Crendentialoutput.println(usercredentials.getPassword());
 	System.out.println( "YOUR CREDETIALS ARE STORED SUCCESSFULLY");
-	Crendentialoutput.close();
-	
-	
-	
-	
+	Crendentialoutput.close();	
 }
-
 public static void InitiliazeFiles() throws IOException {
 	File Userdatafile=new File("/home/swethar839gmail/Project/Phase1project/usersData.txt");
 	File Credential=new File("/home/swethar839gmail/Project/Phase1project/credentials.txt");
@@ -289,20 +292,24 @@ public static void InitiliazeFiles() throws IOException {
 public static void Createfile1(String file) throws IOException {
 
 	try {
-		File newfile=new File(file);
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter the file name to create new file");
+		String file1=sc.next();
+		String generatefile=file1+".txt";
+		File newfile=new File(generatefile);
 		if(newfile.createNewFile()) {
 			System.out.println("file created successfully!!!");
 		}
 		if(newfile.exists()) {
 			System.out.println("file Already exsits duplicate  not allowed!!!!!");
 		}
+		sc.close();
 	} catch (Exception e) {
 	e.printStackTrace();;
 	}
 	
 }
-	
-}
+	}
 
 
 
