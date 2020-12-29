@@ -24,17 +24,18 @@ public class WelcomeApPpage {
 	public static Usercredentials usercredentials;
 	
 public static void main(String[] args) throws IOException {
-//		Scanner sc=new Scanner(System.in);
-//		
-//		System.out.println("enter the file name");
-//		String file=sc.next();
-//		
-
-		
+	String breakCond=null;
+	Scanner sc = new Scanner(System.in);
+		do{
 		InitiliazeFiles();
 		Welcomelockme();
 		Signinoptions();	
+		System.out.println("Do you Want to Continue Y/N");
+		breakCond=sc.next();
+		}
+		while(breakCond.equals("Y"));
 	}
+
 public  static void Welcomelockme() {
 	System.out.println("----------------------");
 	System.out.println("***********************");
@@ -46,6 +47,7 @@ public  static void Welcomelockme() {
 	System.out.println("***********************");
 	System.out.println("----------------------");
 	}
+
 public static void Signinoptions() throws IOException  {
 	System.out.println("1.Register" );
 	System.out.println("2.Login" );
@@ -60,24 +62,10 @@ public static void Signinoptions() throws IOException  {
     default:
 	System.out.println("Please Select 1 or 2 ");
 	break;
+		}
 	
 	}
-		
-	}
-public static void Createfile(String file) throws IOException {
-	try {
-		File newfile=new File(file);
-		if(newfile.createNewFile()) {
-			System.out.println("file created successfully!!!");
-		}
-		if(newfile.exists()) {
-			System.out.println("FIle Already exsists duplicate cannot be created");
-		}
-		
-	} catch (Exception e) {
-	e.printStackTrace();
-	}
-}
+
 public static void Registration() throws IOException {
 	
 		System.out.println("----------------------");
@@ -149,28 +137,28 @@ public static void lockeroptions(String input) throws IOException {
 	System.out.println("2 STORE THE CREDENTIALS");
 	System.out.println("3 CREATE NEW FILE");
 	System.out.println("4 DELETE ALL THE CREDENTIALS");
-	int option=keyboard.nextInt();
-	switch(option) {
-	case 1:
-		Fetchcredentials(input);
-		break;
-	case 2:
-		Storecredentilas(input);
-		break;
-	 case 3:
-		 Createfile1(input);
-		break;
-	 case 4:
-			DeleteCredentials();
+	
+		int option=keyboard.nextInt();
+		switch(option) {
+		case 1:
+			Fetchcredentials(input);
 			break;
-	}
-  
+		case 2:
+			Storecredentilas(input);
+			break;
+		 case 3:
+			 Createfile1(input);
+			break;
+		 case 4:
+				DeleteCredentials();
+				break;
+		}  
 }	
 private static void DeleteCredentials() throws IOException {
 	Scanner scaninput=new Scanner(System.in);
 	String Name;
 	String record;
-	File Readfileaddress=new File("/home/swethar839gmail/Project/Phase1project/credentials.txt");
+	File Readfileaddress=new File("C:\\Practice\\ProjectPhase1\\Project\\Phase1project\\credentials.txt");
 	List<String> lines= new ArrayList<String>();
 	BufferedReader br=new BufferedReader(new FileReader(Readfileaddress));
 	System.out.println("enter the username to delete");
@@ -185,8 +173,8 @@ private static void DeleteCredentials() throws IOException {
 			if(line.contains(Name)) {
 				line= line.replace(Name, "");
 			}
-			lines.add(line);
 		}
+		lines.add(line);
 	}
 	br.close();
 	FileWriter fw = new FileWriter(Readfileaddress);
@@ -268,11 +256,13 @@ public static void Storecredentilas(String loginuser) {
 	Crendentialoutput.close();	
 }
 public static void InitiliazeFiles() throws IOException {
-	File Userdatafile=new File("/home/swethar839gmail/Project/Phase1project/usersData.txt");
-	File Credential=new File("/home/swethar839gmail/Project/Phase1project/credentials.txt");
+	
+
+		
+	File Userdatafile=new File("C:\\Practice\\ProjectPhase1\\Project\\Phase1project\\usersData.txt");
+	File Credential=new File("C:\\Practice\\ProjectPhase1\\Project\\Phase1project\\credentials.txt");
 	try {
 		Userinput=new Scanner(Userdatafile);
-		
 	Crendentialinput=new Scanner(Credential);
 	keyboard=new Scanner(System.in);
 	Useroutput= new PrintWriter(new FileWriter(Userdatafile,true));
@@ -286,9 +276,11 @@ public static void InitiliazeFiles() throws IOException {
 		System.out.println("404 File Not Found");
 	}
 		
+	}
 	
 	
-}
+	
+
 public static void Createfile1(String file) throws IOException {
 
 	try {
